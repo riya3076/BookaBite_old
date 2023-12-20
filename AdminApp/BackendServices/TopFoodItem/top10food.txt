@@ -1,0 +1,21 @@
+WITH unnested_data AS (
+  SELECT
+    JSON_EXTRACT_ARRAY(data, '$.food_reservation') AS food_reservations
+  FROM
+    serverless-project-402603.firestore_fooditem.Reservation_raw_latest
+)
+
+SELECT
+  JSON_EXTRACT_SCALAR(reservation, '$.menu_item_name') AS Item_name,
+  SUM(CAST(JSON_EXTRACT_SCALAR(reservation, '$.quantity') AS INT64)) AS Total_quantity
+FROM
+  unnested_data,
+  UNNEST(food_reservations) AS reservation
+WHERE
+  JSON_EXTRACT_SCALAR(reservation, '$.menu_item_name') IS NOT NULL
+GROUP BY
+  Item_name
+ORDER BY
+  Total_quantity DESC
+LIMIT
+  10;

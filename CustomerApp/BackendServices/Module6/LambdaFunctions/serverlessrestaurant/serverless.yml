@@ -1,0 +1,17 @@
+service: serverlessrestaurant
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  iam:
+    role: arn:aws:iam::396432946857:role/LabRole
+functions:
+  sendRestaurantOffers:
+    handler: sendRestaurantOffers.sendRestaurantOffers
+  getFoodMenuForRestaurants:
+    handler: getFoodMenuForRestaurants.getFoodMenuForRestaurants
+  getListOfRestaurants:
+    handler: getListOfRestaurants.getListOfRestaurants

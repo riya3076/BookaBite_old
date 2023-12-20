@@ -1,0 +1,15 @@
+{
+  "name": "lambda-functions",
+  "version": "1.0.0",
+  "description": "Sprint 2 - reataurant Details",
+  "main": "addAvailability.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1478.0",
+    "axios": "^1.5.1"
+  },
+  "author": "Piyush Akoliya",
+  "license": "ISC"
+}

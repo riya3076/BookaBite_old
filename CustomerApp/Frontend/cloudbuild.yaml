@@ -1,0 +1,25 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - "build"
+      - "-t"
+      - "us-east1-docker.pkg.dev/serverless-402501/book-a-bite-customer-app/book-a-bite"
+      - "./CustomerApp/Frontend"
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - "push"
+      - "us-east1-docker.pkg.dev/serverless-402501/book-a-bite-customer-app/book-a-bite"
+  - name: "google/cloud-sdk"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        gcloud auth activate-service-account --key-file=CustomerApp/Frontend/keys/serverless-402501-c5f01ca20843.json
+        gcloud run deploy book-a-bite \
+          --image=us-east1-docker.pkg.dev/serverless-402501/book-a-bite-customer-app/book-a-bite \
+          --region=us-east1 \
+          --platform=managed \
+          --allow-unauthenticated
+images:
+  - "us-east1-docker.pkg.dev/serverless-402501/book-a-bite-customer-app/book-a-bite"
+#cicd for application

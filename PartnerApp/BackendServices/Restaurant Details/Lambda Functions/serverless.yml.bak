@@ -1,0 +1,74 @@
+service: book-a-bite-serverless-restaurant
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  iam:
+    role: arn:aws:iam::396432946857:role/LabRole
+
+functions:
+  addOperationsDetails:
+    handler: addOperationsDetails.addOperationsDetails
+    events:
+      - http:
+          path: /addRestaurantOperations
+          method: POST
+          cors: true
+
+  addFoodMenuItem:
+    handler: addFoodMenuItem.addFoodMenuItem
+    events:
+      - http:
+          path: /addFoodMenuItem
+          method: POST
+          cors: true
+
+  addTableDetails:
+    handler: addTableDetails.addTableDetails
+    events:
+      - http:
+          path: /addtables
+          method: POST
+          cors: true
+
+  getTotalTables:
+    handler: getTotalTables.getTotalTables
+    events:
+      - http:
+          path: /getTotalTables
+          method: GET
+          cors: true
+          request:
+            parameters:
+              querystrings:
+                restaurantId: true
+resources:
+  Resources:
+    MyS3BucketPiyush:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: serverless-restaurant-b00920744
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: false
+          BlockPublicPolicy: false
+          IgnorePublicAcls: false
+          RestrictPublicBuckets: false
+
+    MyBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket: !Ref MyS3BucketPiyush
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Action:
+                - "s3:*"
+              Effect: "Allow"
+              Resource: !Join
+                - ""
+                - - "arn:aws:s3:::"
+                  - !Ref MyS3BucketPiyush
+                  - /*
+              Principal: "*"

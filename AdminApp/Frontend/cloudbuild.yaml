@@ -1,0 +1,26 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - "build"
+      - "-t"
+      - "us-east1-docker.pkg.dev/serverless-project-402603/book-a-bite-admin-app/book-a-bite-admin-app"
+      - "./AdminApp/Frontend"
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - "push"
+      - "us-east1-docker.pkg.dev/serverless-project-402603/book-a-bite-admin-app/book-a-bite-admin-app"
+  - name: "google/cloud-sdk"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        gcloud auth activate-service-account --key-file=AdminApp/Frontend/keys/serverless-project-402603-734cd884483f.json
+        gcloud run deploy book-a-bite-admin-app \
+          --image=us-east1-docker.pkg.dev/serverless-project-402603/book-a-bite-admin-app/book-a-bite-admin-app \
+          --region=us-east1 \
+          --platform=managed \
+          --allow-unauthenticated \
+          --memory=2Gi \
+          --cpu=2
+images:
+  - "us-east1-docker.pkg.dev/serverless-project-402603/book-a-bite-admin-app/book-a-bite-admin-app"

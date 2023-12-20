@@ -1,0 +1,15 @@
+/* HeroComponent.css */
+.restaurant-container {
+  position: relative;
+  height: 400px;
+  background: url("../../../../public/restaurant.jpg") center/cover;
+  color: white; /* Set text color */
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
+
+.restaurant-content {
+  z-index: 1;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}

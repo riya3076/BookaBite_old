@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: book-a-bite
+    image: book-a-bite-docker-image
+    build:
+      context: .
+    ports:
+      - 8080:80
